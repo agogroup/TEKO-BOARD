@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { TekoWorker, Project } from "@/types/database";
+import type { Project, WorkerWithRelations } from "@/types/database";
 
 const assignmentSchema = z.object({
   worker_id: z.string().min(1, "職人を選択してください"),
@@ -40,7 +40,7 @@ type AssignmentFormData = z.infer<typeof assignmentSchema>;
 export default function NewAssignmentPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [workers, setWorkers] = useState<TekoWorker[]>([]);
+  const [workers, setWorkers] = useState<WorkerWithRelations[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const router = useRouter();
@@ -67,10 +67,16 @@ export default function NewAssignmentPage() {
     const fetchData = async () => {
       const [workersRes, projectsRes] = await Promise.all([
         supabase
-          .from("teko_workers")
-          .select("*")
+          .from("workers")
+          .select(
+            `
+            *,
+            users:user_id (id, name, phone),
+            partners:partner_id (id, name)
+          `,
+          )
           .eq("is_active", true)
-          .order("name"),
+          .order("display_name"),
         supabase
           .from("projects")
           .select("*")
@@ -81,7 +87,7 @@ export default function NewAssignmentPage() {
       if (workersRes.error) {
         console.error("Failed to fetch workers:", workersRes.error);
       } else {
-        setWorkers(workersRes.data ?? []);
+        setWorkers((workersRes.data as WorkerWithRelations[]) ?? []);
       }
 
       if (projectsRes.error) {
@@ -168,12 +174,19 @@ export default function NewAssignmentPage() {
                       <SelectValue placeholder="職人を選択" />
                     </SelectTrigger>
                     <SelectContent>
-                      {workers.map((worker) => (
-                        <SelectItem key={worker.id} value={worker.id}>
-                          {worker.name}
-                          {worker.company_name && ` (${worker.company_name})`}
-                        </SelectItem>
-                      ))}
+                      {workers.map((worker) => {
+                        const name =
+                          worker.display_name ||
+                          worker.users?.name ||
+                          "名前未設定";
+                        const company = worker.partners?.name;
+                        return (
+                          <SelectItem key={worker.id} value={worker.id}>
+                            {name}
+                            {company && ` (${company})`}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 ) : (

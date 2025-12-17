@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, Calendar, User, Building2, Clock } from "lucide-react";
+import { Plus, Calendar, User, Building2, Clock, Pencil } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
   Card,
@@ -197,6 +197,7 @@ export default async function AssignmentsPage({
                   <TableHead>現場</TableHead>
                   <TableHead>ステータス</TableHead>
                   <TableHead>備考</TableHead>
+                  <TableHead className="w-[80px]">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -263,6 +264,13 @@ export default async function AssignmentsPage({
                       <span className="text-sm text-gray-600">
                         {assignment.notes || "-"}
                       </span>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link href={`/assignments/${assignment.id}`}>
+                          <Pencil className="h-4 w-4" />
+                        </Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

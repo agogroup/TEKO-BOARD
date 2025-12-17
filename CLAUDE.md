@@ -62,13 +62,25 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
 ## npm scripts
 
 ```bash
-npm run dev      # 開発サーバー起動 (localhost:3001)
+npm run dev      # 開発サーバー起動 (localhost:3100)
 npm run build    # 本番ビルド
 npm run start    # 本番サーバー起動
 npm run lint     # ESLint 実行
 ```
 
-※ AGORAは3000番ポートを使用するため、TEKO-BOARDは3001番を使用
+## 開発環境ポート割り当て
+
+AGOグループ内の複数プロジェクトが混在しないよう、ポートを固定。
+
+| プロジェクト | 用途 | ポート | URL |
+|------------|------|--------|-----|
+| AGORA | 現場管理システム | 3000 | http://localhost:3000 |
+| TEKO | 職人マッチング / 人員配置 | 3100 | http://localhost:3100 |
+
+**ルール**:
+- 新規プロジェクトは 3200 番台以降を使用
+- `package.json` の `dev` スクリプトでポートを明示する
+- 同時起動時の競合を防ぐため、必ず固定ポートを設定
 
 ## データベーステーブル（TEKO専用）
 
