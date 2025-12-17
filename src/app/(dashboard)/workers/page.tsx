@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Building2, User, ExternalLink } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -106,7 +107,10 @@ export default async function WorkersPage() {
                 {typedWorkers.map((worker) => (
                   <TableRow key={worker.id}>
                     <TableCell>
-                      <div className="flex items-center gap-2">
+                      <Link
+                        href={`/workers/${worker.id}`}
+                        className="flex items-center gap-2 hover:underline"
+                      >
                         <User className="h-4 w-4 text-gray-400" />
                         <div>
                           <div className="font-medium">
@@ -118,7 +122,7 @@ export default async function WorkersPage() {
                             </div>
                           )}
                         </div>
-                      </div>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <Badge variant={WORKER_TYPE_VARIANTS[worker.worker_type]}>

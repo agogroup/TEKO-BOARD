@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { MapPin, Building2, Calendar } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -106,7 +107,10 @@ export default async function SitesPage() {
                 {typedProjects.map((project) => (
                   <TableRow key={project.id}>
                     <TableCell>
-                      <div className="flex items-center gap-2">
+                      <Link
+                        href={`/sites/${project.id}`}
+                        className="flex items-center gap-2 hover:underline"
+                      >
                         <Building2 className="h-4 w-4 text-gray-400" />
                         <div>
                           <div className="font-medium">{project.name}</div>
@@ -114,7 +118,7 @@ export default async function SitesPage() {
                             {project.project_code}
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       {project.clients ? (
