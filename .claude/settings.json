@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npx:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Read(src/**)",
+      "Read(supabase/**)",
+      "Read(public/**)",
+      "Edit(src/**)",
+      "Write(src/**)",
+      "Edit(supabase/migrations/**)",
+      "Write(supabase/migrations/**)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Edit(.env)",
+      "Edit(.env.*)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'file=$(cat | jq -r \".tool_input.file_path // empty\"); if [[ -n \"$file\" && (\"$file\" == *.ts || \"$file\" == *.tsx) ]]; then npx prettier --write \"$file\" 2>/dev/null || true; fi'"
+          }
+        ]
+      }
+    ]
+  }
+}
