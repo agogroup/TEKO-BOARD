@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
   Card,
@@ -15,6 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { TekoWorker } from "@/types/database";
 
 export default async function WorkersPage() {
@@ -32,9 +35,17 @@ export default async function WorkersPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">職人一覧</h1>
-        <p className="text-gray-500">登録されている職人の管理</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">職人一覧</h1>
+          <p className="text-gray-500">登録されている職人の管理</p>
+        </div>
+        <Button asChild>
+          <Link href="/workers/new">
+            <Plus />
+            新規登録
+          </Link>
+        </Button>
       </div>
 
       <Card>
