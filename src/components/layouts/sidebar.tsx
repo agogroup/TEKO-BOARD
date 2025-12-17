@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const navigation = [
   { name: "ダッシュボード", href: "/", icon: "📊" },
   { name: "配置管理", href: "/assignments", icon: "📅" },
-  { name: "職人一覧", href: "/workers", icon: "👷" },
+  { name: "職人・業者", href: "/workers", icon: "👷" },
   { name: "現場一覧", href: "/sites", icon: "🏗️" },
   { name: "連絡先", href: "/contacts", icon: "📞" },
 ];
@@ -40,7 +40,7 @@ export function Sidebar() {
               "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
               pathname === item.href
                 ? "bg-gray-100 text-gray-900 font-medium"
-                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
             )}
           >
             <span>{item.icon}</span>
@@ -50,11 +50,7 @@ export function Sidebar() {
       </nav>
 
       <div className="border-t p-4">
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={handleLogout}
-        >
+        <Button variant="outline" className="w-full" onClick={handleLogout}>
           ログアウト
         </Button>
       </div>
