@@ -41,7 +41,7 @@ src/
 ├── hooks/                 # カスタムフック
 ├── types/                 # 型定義
 │   └── database.ts        # Supabase 型定義
-└── middleware.ts          # 認証ミドルウェア
+└── proxy.ts               # 認証プロキシ (Next.js 16)
 ```
 
 ## 環境変数
